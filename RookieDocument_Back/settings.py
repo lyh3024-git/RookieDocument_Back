@@ -35,9 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Base.apps.BaseConfig',
+    # 'Base.apps.BaseConfig',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'Base'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'RookieDocument_Back.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'RookieDocument_Back',
+        'NAME': 'test_db',
         'HOST': '127.0.0.1',
         'POST': 3306,
         'USER': 'root',
