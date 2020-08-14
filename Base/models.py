@@ -18,3 +18,22 @@ class User(models.Model):
 class Content(models.Model):
     title = models.CharField(verbose_name="标题", max_length=20)
     content = models.TextField(verbose_name="内容")
+
+    class Meta:
+        verbose_name = '内容'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
+
+
+class Team(models.Model):
+    name = models.CharField(verbose_name='团队名称', max_length=20)
+    add_time = models.DateTimeField(verbose_name='添加时间')
+
+    class Meta:
+        verbose_name = '团队'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
