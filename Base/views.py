@@ -50,7 +50,9 @@ class UserListViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, viewset
 
         return JsonResponse({'flag': 'success', 'name': instance.username, 'id': instance.id})
 
-
+    def perform_update(self, serializer):
+        print(serializer)
+        serializer.save()
 
 class Login(APIView):
     def post(self, request):
@@ -76,7 +78,7 @@ def login_submit(request):
 
         if status:
             # 登录成功会 返回用户的id  作为查询用户和修改密码的依据
-            return JsonResponse({'flag': 'success', 'name': username,'id': status.first().id})
+            return JsonResponse({'flag': 'success', 'name': username, 'id': status.first().id})
         else:
             return JsonResponse({'flag': 'fail'})
 
@@ -85,7 +87,8 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModel
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     pagination_class = Genericpgination
-    search_fields=['name']
+    search_fields = ['name']
+
 
 class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     # 内容创建  创建成功返回  {'flag': 'success'}
@@ -94,9 +97,9 @@ class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateMo
     pagination_class = Genericpgination
     search_fields = ['content']
 
-    def create(self,request,*args,**kwargs):
-        serializer=self.get_serializer(data=request.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers=self.get_success_headers(serializer.data)
+        headers = self.get_success_headers(serializer.data)
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
