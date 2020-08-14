@@ -18,4 +18,4 @@ class ContentSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        field = '__all__'
+        fields = '__all__'
