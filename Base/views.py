@@ -104,29 +104,3 @@ class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateMo
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
-
-    def perform_update(self, serializer):
-        print(serializer)
-        serializer.save()
-
-
-class Createdoc(APIView):
-    def post(self, request):
-        print(request.POST)
-        id = request.POST.get('owner')
-        docname = request.POST.get('docname')
-        content = request.POST.get('content')
-        print(id, docname, content)
-
-
-def doc_create(request):
-    import json
-    if request.method == 'POST':
-        params = request.body.decode()
-        params = json.loads(params)
-        id = params.get('owner', '')
-        docname = params.get('docname', '')
-        content = params.get('content', '')
-        print(id)
-        print(docname)
-        print(content)

@@ -22,11 +22,7 @@ from rest_framework.documentation import include_docs_urls
 # from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from Base.views import login_submit
-from Base.views import doc_create
 
-
-router = routers.SimpleRouter()
-router.register(r'users', UserListViewSet, 'users')
 
 router = routers.SimpleRouter()
 router.register(r'users', UserListViewSet, 'users')
@@ -38,7 +34,6 @@ urlpatterns = [
     path('', include(router.urls)),
     url(r'^login/$', login_submit),
     path('docs/', include_docs_urls(title='信息')),
-    url(r'contents/$', doc_create),
     # url(r'^upload_img/$', doc_view.upload_img),
     # url(r'^media/(?P<name>\d+).(?P<postfix>\w+)', doc_view.get_media),
 ]
