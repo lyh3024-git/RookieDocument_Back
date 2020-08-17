@@ -26,9 +26,22 @@ class Team(models.Model):
         return self.teamname
 
 
+class TeamMember(models.Model):
+    tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_teams')
+    uid = models.ForeignKey(to=User, verbose_name='用户id', on_delete=models.CASCADE, related_name='user_teams')
+    isleader = models.CharField(verbose_name='是否是创建者，1代表队长,默认0', max_length=2, default='0')
+    fav = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
+
+
 class Content(models.Model):
+    uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE)
+    tid = models.ForeignKey(to=Team, verbose_name='团队外键-默认值为0代表该文档未加入团队', on_delete=models.CASCADE)
     title = models.CharField(verbose_name="标题", max_length=20)
     content = models.TextField(verbose_name="内容")
+    createtime = models.DateTimeField(verbose_name='创建时间')
+    changetime = models.DateTimeField(verbose_name='修改时间')
+    isdelete = models.CharField(max_length=2)
+    isread = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
 
     class Meta:
         verbose_name = '内容'
