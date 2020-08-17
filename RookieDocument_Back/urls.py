@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from Base.views import UserListViewSet, ContentViewSet, TeamViewSet
+from Base.views import UserListViewSet, ContentViewSet, TeamViewSet, FavViewSet
 from django.conf.urls import url, include
 from rest_framework.documentation import include_docs_urls
 # from rest_framework_jwt.views import obtain_jwt_token
@@ -28,6 +28,7 @@ router = routers.SimpleRouter()
 router.register(r'users', UserListViewSet, 'users')
 router.register(r'teams', TeamViewSet, 'teams')
 router.register(r'contents', ContentViewSet, 'contents')
+router.register(r'fav_his', FavViewSet, 'fav_his')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
