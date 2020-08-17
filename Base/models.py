@@ -2,18 +2,6 @@ from django.db import models
 
 
 # Create your models here.
-class Team(models.Model):
-    name = models.CharField(verbose_name='团队名称', max_length=20)
-    add_time = models.DateTimeField(verbose_name='添加时间')
-
-    class Meta:
-        verbose_name = '团队'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.name
-
-
 class User(models.Model):
     username = models.CharField(verbose_name="用户名", max_length=20)
     email = models.EmailField(verbose_name='邮箱', default='admin@admin.com')
@@ -25,6 +13,17 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Team(models.Model):
+    teamname = models.CharField(verbose_name='团队名称', max_length=20, unique=True)
+
+    class Meta:
+        verbose_name = '团队'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.teamname
 
 
 class Content(models.Model):
