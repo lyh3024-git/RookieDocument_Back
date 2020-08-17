@@ -15,7 +15,6 @@ class Team(models.Model):
 
 
 class User(models.Model):
-    tid = models.ForeignKey(to=Team, verbose_name='团队主键', on_delete=models.CASCADE)
     username = models.CharField(verbose_name="用户名", max_length=20)
     email = models.EmailField(verbose_name='邮箱', default='admin@admin.com')
     password = models.CharField(verbose_name='密码', max_length=20)
