@@ -25,10 +25,12 @@ from Base.views import login_submit
 
 
 router = routers.SimpleRouter()
-router.register(r'users', UserListViewSet, 'users')
-router.register(r'teams', TeamViewSet, 'teams')
-router.register(r'contents', ContentViewSet, 'contents')
-router.register(r'fav_his', FavViewSet, 'fav_his')
+router.register(r'user', UserListViewSet, 'users')
+router.register(r'team', TeamViewSet, 'teams')
+router.register(r'content', ContentViewSet, 'contents')
+router.register(r'favourite', FavViewSet, 'fav_his')
+router.register(r'comment', CommentViewSet, 'fav_his')
+router.register(r'teammember', TeamMemberViewSet, 'teammember')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
