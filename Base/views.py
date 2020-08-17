@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
-from Base.models import User, Team, Content, Fav_His, TeamMember, Comment, Favourite
+from Base.models import User, Team, Content, TeamMember, Comment, Favourite
 from Base.serializer import UserSerializer, TeamSerializer, ContentSerializer, Fav_HisSerializer, TeamMemberSerializer, \
     CommentSerializer
 
