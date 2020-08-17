@@ -1,4 +1,4 @@
-from Base.models import User, Team, Content
+from Base.models import User, Team, Content, Fav_His
 from . import models
 from rest_framework import serializers
 
@@ -19,3 +19,10 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = '__all__'
+
+
+class Fav_HisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fav_His
+        fields = '__all__'
+
