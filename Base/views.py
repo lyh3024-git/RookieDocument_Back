@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
-from Base.models import User, Team, Content
-from Base.serializer import UserSerializer, TeamSerializer, ContentSerializer
+from Base.models import User, Team, Content, Fav_His
+from Base.serializer import UserSerializer, TeamSerializer, ContentSerializer, Fav_HisSerializer
 
 
 class Genericpgination(PageNumberPagination):
@@ -104,3 +104,18 @@ class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateMo
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class FavViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+    queryset = Fav_His.objects.all()
+    serializer_class = Fav_HisSerializer
+    pagination_class = Genericpgination
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
+
+
