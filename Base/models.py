@@ -51,7 +51,26 @@ class Content(models.Model):
         return self.title
 
 
-class Fav_His(models.Model):
-    cid = models.ForeignKey(to=Content, verbose_name='内容主键', on_delete=models.CASCADE)
-    flag = models.CharField(verbose_name='类别', max_length=2)
-    add_time = models.DateTimeField(verbose_name='添加时间')
+class Comment(models.Model):
+    detail = models.TextField(verbose_name='评论内容')
+    uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE, related_name='belong_user')
+    cid = models.ForeignKey(to=Content, verbose_name='文档外键', on_delete=models.CASCADE, related_name='comments')
+
+    class Meta:
+        verbose_name = '评论'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.detail
+
+
+class Favourite(models.Model):
+    cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
+    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs')
+
+    class Meta:
+        verbose_name = '收藏'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.cid
