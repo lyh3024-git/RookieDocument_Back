@@ -112,7 +112,7 @@ class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateMo
     # 内容创建  创建成功返回  {'flag': 'success'}
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
-    pagination_class = Genericpgination
+    # pagination_class = Genericpgination
     search_fields = ['content']
 
     def create(self, request, *args, **kwargs):
