@@ -27,7 +27,7 @@ class Team(models.Model):
 
 
 class TeamMember(models.Model):
-    tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_teams',
+    tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_peoples',
                             null=True, blank=True)
     uid = models.ForeignKey(to=User, verbose_name='用户id', on_delete=models.CASCADE, related_name='user_teams',
                             null=True, blank=True)
@@ -45,8 +45,7 @@ class Content(models.Model):
     createtime = models.DateTimeField(verbose_name='创建时间')
     changetime = models.DateTimeField(verbose_name='修改时间')
     isdelete = models.CharField(max_length=2)
-    isread = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
-    count = models.SmallIntegerField(verbose_name='修改次数')
+    count = models.SmallIntegerField(verbose_name='修改次数',default=0)
 
     class Meta:
         verbose_name = '内容'
@@ -72,7 +71,7 @@ class Comment(models.Model):
 
 class Favourite(models.Model):
     cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
-    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs')
+    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='user_favs')
 
     class Meta:
         verbose_name = '收藏'
