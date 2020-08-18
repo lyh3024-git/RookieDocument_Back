@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'RookieDocument_Back.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_db1',
-        'HOST': '127.0.0.1',
+        'NAME': 'test_db',
+        'HOST': 'rm-2ze6u1c50j03likppto.mysql.rds.aliyuncs.com',
         'POST': 3306,
-        'USER': 'root',
-        'PASSWORD': 'lyh123456'
+        'USER': 'lhx',
+        'PASSWORD': '32908914'
     }
 }
 
