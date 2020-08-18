@@ -46,6 +46,7 @@ class Content(models.Model):
     changetime = models.DateTimeField(verbose_name='修改时间')
     isdelete = models.CharField(max_length=2)
     count = models.SmallIntegerField(verbose_name='修改次数',default=0)
+    fav = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
 
     class Meta:
         verbose_name = '内容'
