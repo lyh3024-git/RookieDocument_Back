@@ -21,26 +21,29 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer(serializers.ModelSerializer):
-    favs = Fav_HisSerializer(many=True, required=False)
-    user_teams = TeamMemberSerializer(many=True, required=False)
-
-    class Meta:
-        model = User
-        fields = '__all__'
-
-
 class ContentSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, required=False)
+    comments = CommentSerializer(many=True, required=False, allow_null=True, read_only=True)
 
     class Meta:
         model = Content
         fields = '__all__'
 
 
-class TeamSerializer(serializers.ModelSerializer):
-    team_teams = TeamMemberSerializer(many=True,required=False)
+class UserSerializer(serializers.ModelSerializer):
+    user_favs = Fav_HisSerializer(many=True, required=False, allow_null=True, read_only=True)
+    user_teams = TeamMemberSerializer(many=True, required=False, allow_null=True, read_only=True)
+    user_contents = ContentSerializer(many=True, required=False, allow_null=True, read_only=True)
 
     class Meta:
+        model = User
+        fields = '__all__'
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    team_peoples = TeamMemberSerializer(many=True, required=False, allow_null=True, read_only=True)
+    team_contents = ContentSerializer(many=True, required=False, allow_null=True, read_only=True)
+
+
+class Meta:
         model = Team
         fields = '__all__'
