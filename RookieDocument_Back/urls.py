@@ -37,6 +37,4 @@ urlpatterns = [
     path('', include(router.urls)),
     url(r'^login/$', login_submit),
     path('docs/', include_docs_urls(title='信息')),
-    # url(r'^upload_img/$', doc_view.upload_img),
-    # url(r'^media/(?P<name>\d+).(?P<postfix>\w+)', doc_view.get_media),
 ]
