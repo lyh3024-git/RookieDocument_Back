@@ -35,7 +35,7 @@ class TeamMember(models.Model):
 
 class Content(models.Model):
     uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE)
-    tid = models.ForeignKey(to=Team, verbose_name='团队外键-默认值为0代表该文档未加入团队', on_delete=models.CASCADE, default='0')
+    tid = models.ForeignKey(to=Team, verbose_name='团队外键-默认值为0代表该文档未加入团队', on_delete=models.CASCADE)
     title = models.CharField(verbose_name="标题", max_length=20)
     content = models.TextField(verbose_name="内容")
     createtime = models.DateTimeField(verbose_name='创建时间')
