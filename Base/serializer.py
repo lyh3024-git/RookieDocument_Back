@@ -43,7 +43,8 @@ class TeamSerializer(serializers.ModelSerializer):
     team_peoples = TeamMemberSerializer(many=True, required=False, allow_null=True, read_only=True)
     team_contents = ContentSerializer(many=True, required=False, allow_null=True, read_only=True)
 
+    # user_teams = UserSerializer(many=True, required=False, allow_null=True, read_only=True)
 
-class Meta:
+    class Meta:
         model = Team
         fields = '__all__'
