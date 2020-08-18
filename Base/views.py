@@ -105,7 +105,7 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModel
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'flag': 'success', 'tid': serializer.data.get('id')}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
@@ -113,6 +113,7 @@ class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, Updat
     serializer_class = TeamMemberSerializer
     pagination_class = Genericpgination
     search_fields = ['isdelete']
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -123,7 +124,7 @@ class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, Updat
 
 class CommentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     queryset = Comment.objects.all()
-    serializer_class =CommentSerializer
+    serializer_class = CommentSerializer
     pagination_class = Genericpgination
 
     def create(self, request, *args, **kwargs):
