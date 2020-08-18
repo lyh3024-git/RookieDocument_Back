@@ -15,14 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from Base.views import UserListViewSet, ContentViewSet, TeamViewSet, FavViewSet, TeamMemberViewSet, CommentViewSet
+from Base.views import UserListViewSet, TeamViewSet, ContentViewSet, FavViewSet, TeamMemberViewSet, CommentViewSet
 from django.conf.urls import url, include
 from rest_framework.documentation import include_docs_urls
-# from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from Base.views import login_submit
-
 
 router = routers.SimpleRouter()
 router.register(r'user', UserListViewSet, 'users')
@@ -31,10 +28,9 @@ router.register(r'content', ContentViewSet, 'contents')
 router.register(r'favourite', FavViewSet, 'fav_his')
 router.register(r'comment', CommentViewSet, 'fav_his')
 router.register(r'teammember', TeamMemberViewSet, 'teammember')
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     url(r'^login/$', login_submit),
-    path('docs/', include_docs_urls(title='信息')),
+    path('docs/', include_docs_urls(title='信息'))
 ]
