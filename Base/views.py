@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
-from Base.models import User, Team, Content, TeamMember, Comment, Favourite
+from Base.models import User, Team, Content, Favourite, Comment, TeamMember
 from Base.serializer import UserSerializer, TeamSerializer, ContentSerializer, Fav_HisSerializer, TeamMemberSerializer, \
     CommentSerializer
 
@@ -23,8 +23,7 @@ class Genericpgination(PageNumberPagination):
     page_query_param = 'page'
 
 
-class UserListViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, viewsets.GenericViewSet, UpdateModelMixin):
-    # throttle_classes = (AnonRateThrottle, UserRateThrottle)
+class UserListViewSet(RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = Genericpgination
@@ -59,6 +58,7 @@ class UserListViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, viewset
             instance._prefetched_objects_cache = {}
 
         return JsonResponse({'flag': 'success', 'name': instance.username, 'id': instance.id})
+        # return Response(serializer.data)
 
     def perform_update(self, serializer):
         print(serializer)
@@ -108,26 +108,11 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModel
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
-    # 内容创建  创建成功返回  {'flag': 'success'}
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
-    # pagination_class = Genericpgination
-    search_fields = ['content']
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
-
-
 class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
     pagination_class = Genericpgination
-
+    search_fields = ['isdelete']
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -138,7 +123,7 @@ class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, Updat
 
 class CommentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    serializer_class =CommentSerializer
     pagination_class = Genericpgination
 
     def create(self, request, *args, **kwargs):
