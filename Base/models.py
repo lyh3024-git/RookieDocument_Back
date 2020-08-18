@@ -46,6 +46,7 @@ class Content(models.Model):
     changetime = models.DateTimeField(verbose_name='修改时间')
     isdelete = models.CharField(max_length=2)
     isread = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
+    count = models.SmallIntegerField(verbose_name='修改次数')
 
     class Meta:
         verbose_name = '内容'
@@ -59,6 +60,7 @@ class Comment(models.Model):
     detail = models.TextField(verbose_name='评论内容')
     uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE, related_name='belong_user')
     cid = models.ForeignKey(to=Content, verbose_name='文档外键', on_delete=models.CASCADE, related_name='comments')
+    com_datetime = models.DateTimeField(verbose_name='评论时间')
 
     class Meta:
         verbose_name = '评论'
