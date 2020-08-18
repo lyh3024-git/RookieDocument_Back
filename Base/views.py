@@ -41,7 +41,9 @@ class UserListViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, viewset
         # 查询用户的详情信息 前端通过 /users/1/ 查询
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        data = serializer.data
+        data.pop('password')
+        return Response(data)
 
     def update(self, request, *args, **kwargs):
         # 修改密码信息 必须转id username password
@@ -97,6 +99,13 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModel
     serializer_class = TeamSerializer
     pagination_class = Genericpgination
     search_fields = ['name']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
