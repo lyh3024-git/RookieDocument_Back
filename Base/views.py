@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views import View
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,7 +23,8 @@ class Genericpgination(PageNumberPagination):
     page_query_param = 'page'
 
 
-class UserListViewSet(RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class UserListViewSet(RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                      viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = Genericpgination
@@ -94,7 +95,8 @@ def login_submit(request):
             return JsonResponse({'flag': 'fail'})
 
 
-class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class TeamViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                  viewsets.GenericViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     pagination_class = Genericpgination
@@ -105,10 +107,12 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModel
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response({'flag': 'success', 'tid': serializer.data.get('id')}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'flag': 'success', 'tid': serializer.data.get('id')}, status=status.HTTP_201_CREATED,
+                        headers=headers)
 
 
-class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                        viewsets.GenericViewSet):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
     pagination_class = Genericpgination
@@ -122,7 +126,8 @@ class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, Updat
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class CommentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class CommentViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                     viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     pagination_class = Genericpgination
@@ -135,7 +140,8 @@ class CommentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateMo
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class FavViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class FavViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                 viewsets.GenericViewSet):
     queryset = Favourite.objects.all()
     serializer_class = Fav_HisSerializer
     pagination_class = Genericpgination
@@ -148,7 +154,8 @@ class FavViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelM
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class ContentViewSet(ListAPIView, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+class ContentViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+                     viewsets.GenericViewSet):
     # 内容创建  创建成功返回  {'flag': 'success'}
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
