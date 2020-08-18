@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    username = models.CharField(verbose_name="用户名", max_length=20,unique=True)
+    username = models.CharField(verbose_name="用户名", max_length=20, unique=True)
     email = models.EmailField(verbose_name='邮箱', default='admin@admin.com')
     password = models.CharField(verbose_name='密码', max_length=20)
 
@@ -28,7 +28,8 @@ class Team(models.Model):
 
 class TeamMember(models.Model):
     tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_teams')
-    uid = models.ForeignKey(to=User, verbose_name='用户id', on_delete=models.CASCADE, related_name='user_teams')
+    uid = models.ForeignKey(to=User, verbose_name='用户id', on_delete=models.CASCADE, related_name='user_teams',
+                            null=True, blank=True)
     isleader = models.CharField(verbose_name='是否是创建者，1代表队长,默认0', max_length=2, default='0')
     fav = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
 
@@ -66,7 +67,8 @@ class Comment(models.Model):
 
 class Favourite(models.Model):
     cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
-    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs')
+    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs', null=True,
+                            blank=True)
 
     class Meta:
         verbose_name = '收藏'
