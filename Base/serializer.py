@@ -22,8 +22,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    favs = Fav_HisSerializer(many=True)
-    user_teams = TeamMemberSerializer(many=True)
+    favs = Fav_HisSerializer(many=True, required=False)
+    user_teams = TeamMemberSerializer(many=True, required=False)
 
     class Meta:
         model = User
@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ContentSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True)
+    comments = CommentSerializer(many=True, required=False)
 
     class Meta:
         model = Content
@@ -39,10 +39,8 @@ class ContentSerializer(serializers.ModelSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    team_teams = TeamMemberSerializer(many=True)
+    team_teams = TeamMemberSerializer(many=True,required=False)
 
     class Meta:
         model = Team
         fields = '__all__'
-
-
