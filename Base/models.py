@@ -8,7 +8,7 @@ class User(models.Model):
     password = models.CharField(verbose_name='密码', max_length=20)
 
     class Meta:
-        verbose_name = '信息'
+        verbose_name = '用户'
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -27,7 +27,8 @@ class Team(models.Model):
 
 
 class TeamMember(models.Model):
-    tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_teams')
+    tid = models.ForeignKey(to=Team, verbose_name='团队id', on_delete=models.CASCADE, related_name='team_teams',
+                            null=True, blank=True)
     uid = models.ForeignKey(to=User, verbose_name='用户id', on_delete=models.CASCADE, related_name='user_teams',
                             null=True, blank=True)
     isleader = models.CharField(verbose_name='是否是创建者，1代表队长,默认0', max_length=2, default='0')
@@ -35,8 +36,10 @@ class TeamMember(models.Model):
 
 
 class Content(models.Model):
-    uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE)
-    tid = models.ForeignKey(to=Team, verbose_name='团队外键-默认值为0代表该文档未加入团队', on_delete=models.CASCADE)
+    uid = models.ForeignKey(to=User, verbose_name='用户外键', on_delete=models.CASCADE, null=True, blank=True,
+                            related_name='user_contents')
+    tid = models.ForeignKey(to=Team, verbose_name='团队外键-默认值为0代表该文档未加入团队', on_delete=models.CASCADE, null=True,
+                            blank=True, related_name='team_contents')
     title = models.CharField(verbose_name="标题", max_length=20)
     content = models.TextField(verbose_name="内容")
     createtime = models.DateTimeField(verbose_name='创建时间')
@@ -67,8 +70,7 @@ class Comment(models.Model):
 
 class Favourite(models.Model):
     cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
-    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs', null=True,
-                            blank=True)
+    uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='favs')
 
     class Meta:
         verbose_name = '收藏'
