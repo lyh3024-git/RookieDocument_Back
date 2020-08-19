@@ -71,10 +71,11 @@ class Comment(models.Model):
 
 
 class Favourite(models.Model):
-    cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE, unique=True)
+    cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
     uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='user_favs')
 
     class Meta:
+        unique_together = (("cid", "uid"),)
         verbose_name = '收藏'
         verbose_name_plural = verbose_name
 
