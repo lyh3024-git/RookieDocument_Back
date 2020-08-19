@@ -45,7 +45,7 @@ class Content(models.Model):
     createtime = models.DateTimeField(verbose_name='创建时间')
     changetime = models.DateTimeField(verbose_name='修改时间')
     isdelete = models.CharField(max_length=2)
-    count = models.SmallIntegerField(verbose_name='修改次数',default=0)
+    count = models.SmallIntegerField(verbose_name='修改次数', default=0)
     fav = models.CharField(verbose_name='读1、写2、不可查看3，默认3', max_length=2, default='3')
 
     class Meta:
@@ -71,7 +71,7 @@ class Comment(models.Model):
 
 
 class Favourite(models.Model):
-    cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE)
+    cid = models.ForeignKey(to=Content, verbose_name='被收藏的文档id', on_delete=models.CASCADE, unique=True)
     uid = models.ForeignKey(to=User, verbose_name='收藏者用户id', on_delete=models.CASCADE, related_name='user_favs')
 
     class Meta:
