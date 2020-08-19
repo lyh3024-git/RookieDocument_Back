@@ -95,7 +95,7 @@ def login_submit(request):
             return JsonResponse({'flag': 'fail'})
 
 
-class TeamViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+class TeamViewSet(ListAPIView, DestroyModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin,
                   viewsets.GenericViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
@@ -111,7 +111,7 @@ class TeamViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateMode
                         headers=headers)
 
 
-class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+class TeamMemberViewSet(ListAPIView, DestroyModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin,
                         viewsets.GenericViewSet):
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
@@ -126,7 +126,7 @@ class TeamMemberViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, Crea
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class CommentViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+class CommentViewSet(ListAPIView, DestroyModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin,
                      viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -140,7 +140,7 @@ class CommentViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateM
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class FavViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+class FavViewSet(ListAPIView, DestroyModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin,
                  viewsets.GenericViewSet):
     queryset = Favourite.objects.all()
     serializer_class = Fav_HisSerializer
@@ -149,12 +149,16 @@ class FavViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModel
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        cid = request.data.get('cid')
+        uid = request.data.get('uid')
+        if Favourite.objects.filter(cid=cid, uid=uid):
+            return Response({'flag': 'fail', 'msg': 'cid exist'})
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response({'flag': 'success'}, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class ContentViewSet(ListAPIView, RetrieveModelMixin, DestroyModelMixin, CreateModelMixin, UpdateModelMixin,
+class ContentViewSet(ListAPIView, DestroyModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin,
                      viewsets.GenericViewSet):
     # 内容创建  创建成功返回  {'flag': 'success'}
     queryset = Content.objects.all()
